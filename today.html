@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>js_获取日期：前天、昨天、今天(三分钟内为现在)</title>
+
+    </head>
+    <body>
+
+    </body>
+</html>
+<script language="JavaScript" type="text/javascript">
+    var time = "2018年01月17日 09:47:00";
+    // 时间统一函数
+    function getTimeText(argument) {
+        var timeS = argument;
+        var todayT = ''; //
+        var yestodayT = '';
+        var tdbyT = "";
+        var timeCha = getTimeS(timeS);
+        timeS = timeS.slice(-8);
+        todayT = new Date().getHours()*60*60*1000 + new Date().getMinutes()*60*1000 + new Date().getSeconds()*1000;
+        yestodayT = todayT + 24*60*60*1000;
+        tdbyT = todayT + 48*60*60*1000;
+        if(timeCha > tdbyT){
+            return argument.slice(0, 4) + "-" +argument.slice(5, 7) + "-" + argument.slice(8, 10) + " " + timeS.slice(0, 5);
+        }else if(timeCha > yestodayT && timeCha < tdbyT) {
+            return '前天 '+timeS.slice(0,5);
+        }else if(timeCha > todayT && timeCha < yestodayT) {
+            return '昨天 '+timeS.slice(0,5);
+        }else if(timeCha < todayT) {
+            if(parseInt(timeS.slice(0,2)) == new Date().getHours()){
+                return  parseInt(new Date().getMinutes()) - parseInt(timeS.slice(3,5)) <= 3 ?  (parseInt(new Date().getMinutes()) - parseInt(timeS.slice(3,5)) >= 0 ? "现在" : "") : '今天 ' + timeS.slice(0,5);
+            }else{
+                return  '今天 ' + timeS.slice(0,5);
+            }
+
+        }
+    }
+    // 时间戳获取
+    function getTimeS(argument) {
+        var timeS = argument;
+        timeS = timeS.replace(/[年月]/g,'/').replace(/[日]/,'');
+        return new Date().getTime() - new Date(timeS).getTime() - 1000; //有一秒的误差
+
+    }
+    var timeText = getTimeText(time);
+    console.log('显示为:'+timeText)
+
+
+</script>
