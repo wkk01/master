@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>星级评分</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script src="js/starScore.js"></script>
+	<style>
+		body,li,p,ul { 
+		    margin: 0;
+		    padding: 0;
+		    font: 12px/1 Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+		}
+		ul, li, ol { list-style: none; }
+
+
+		.show_number{ 
+			padding-left:50px; 
+			padding-top:20px;
+		}
+
+		.show_number li{ 
+			width:240px; 
+			border:1px solid yellow;
+			padding:10px; 
+			margin-right:5px; 
+			margin-bottom:20px;
+		}
+
+		.atar_Show{
+			background:url(images/starky.png);
+			width:110px; height:21px;
+			position:relative; 
+			float:left; 
+		}
+
+		.atar_Show p{ 
+			background:url(images/starsy.png);
+			left:0; 
+			height:21px; 
+			width:110px;
+		}
+
+		.show_number li span{ 
+			display:inline-block; 
+			line-height:21px;
+		}
+
+</style>
+</head>
+<body>
+
+    <!-- 分数展示 -->
+    <p class="title">分数展示</p>
+    <ul class="show_number clearfix">
+       <li>
+        <div class="atar_Show">
+          <p tip="2.75"></p>
+        </div>
+        <span></span>
+       </li>
+
+    </ul>
+  </div>
+
+  <script>
+     //显示分数
+      $(".show_number li p").each(function(index, element) {
+        var num=$(this).attr("tip");
+        var www=num*2*16;//
+        $(this).css("width",www);
+        $(this).parent(".atar_Show").siblings("span").text(num+"分");
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 兼容移动端 -->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="http://www.baidu.com">百度的a标签跳转</a>
+    <br> <!-- a和button都是行内元素所以用“br”标签换行 -->
+    <button>js监听点击跳转到百度</button>
+    <br>
+    <div></div>
+    <!-- 判断图片地址是否存在的方法三（会报错，适用于有备用图片的） -->
+    <!--<img src="./128/img/128_ddlj_top.png" onerror="this.width=0" style="width:100%;"/>-->
+</body>
+</html>
+<!-- 引入的是jQuery的cdn加速的网络资源，建议你先以原生js的获取元素的方法 -->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+    $('button').on("click",function () {
+        window.location.href = "http://www.baidu.com";
+    });
+    // 判断图片是否存在
+   /* if(validateImage("http://img1.imgtn.bdimg.com/it/u=364130469,1643258122&fm=27&gp=0.jpg")){
+        $('div').append('<img src="http://img1.imgtn.bdimg.com/it/u=364130469,1643258122&fm=27&gp=0.jpg">');
+    }*/
+   if(!isHasImg("http://img1.imgtn.bdimg.com/it/u=364130469,1643258122&fm=27&gp=0.jpg")){
+       $('div').append('<img src="http://img1.imgtn.bdimg.com/it/u=364130469,1643258122&fm=27&gp=0.jpg">');
+   }
+    // 判断图片是否存在的方法一
+    function validateImage(url){
+        var xmlHttp ;
+        if (window.ActiveXObject){
+            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }else if (window.XMLHttpRequest){
+            xmlHttp = new XMLHttpRequest();
+        }
+        xmlHttp.open("Get",url,false);
+        xmlHttp.send();
+        if(xmlHttp.status==404){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    // 判断图片是否存在的方法二
+    function isHasImg(pathImg){
+        var ImgObj=new Image();
+        ImgObj.src= pathImg;
+        if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+</script>

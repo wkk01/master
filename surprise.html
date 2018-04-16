@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            html, body{
+                width: 100%;
+                height: 100%;
+            }
+            html{
+                font-size: 62.5%;
+            }
+            li{
+                list-style: none;
+            }
+            img{
+                vertical-align: middle;
+            }
+            #box{
+                width: 100%;
+                height: 100%;
+            }
+            .content{
+                width: 100%;
+                text-align: center;
+            }
+            .content li{
+                display: inline-block;
+                width: 31%;
+                line-height: 4rem;
+                border: 1px solid red;
+                margin-bottom: 0.2rem;
+            }
+            .active{
+                background: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <ul class="content">
+                <li num=1 class="active">
+                    1
+                </li>
+                <li num=2>
+                    2
+                </li>
+                <li num=3>
+                    3
+                </li>
+                <li num=8>
+                    8
+                </li>
+                <li id="startBtn">
+                    抽奖
+                </li>
+                <li num=4>
+                    4
+                </li>
+                <li num=7>
+                    7
+                </li>
+                <li num=6>
+                    6
+                </li>
+                <li num=5>
+                    5
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+    var j = 1;
+    var i = 0;
+    var scrollTime;
+    var suprise = {
+        speed : 80,
+        angle: 2,
+        translate: 30,
+        cycle: 180,
+        roll: function (n) {
+            if(n < this.cycle){
+                /*console.log(n);*/
+            }else{
+                clearInterval(scrollTime);
+                /*console.log(n);*/
+                $('#startBtn').on('click', function () {
+                    $('#startBtn').off();
+                    if($('.active')[0].attributes.num.value != 1){
+                        suprise.cycle = 181 - parseInt($('.active')[0].attributes.num.value);
+                    }else{
+                        suprise.cycle = 180;
+                    }
+                    i = 0;
+                    getSur();
+                });
+            }
+        }
+    };
+    $('#startBtn').on('click', function () {
+        $('#startBtn').off();
+        if($('.active')[0].attributes.num.value != 1){
+            suprise.cycle = 181 - parseInt($('.active')[0].attributes.num.value);
+        }else{
+            suprise.cycle = 180;
+        }
+        i = 0;
+        getSur();
+    });
+
+    function scroll() {
+        console.log('跑一次');
+        scrollTime = setInterval(function () {
+            setTimeout(function () {
+                if(j < 8){
+                    j++;
+                    for(var k = 0;k < 9; k++){
+                        $('li:eq('+ k + ')').removeClass('active');
+                    }
+                    if($('li')[0].attributes.num.value == j){
+                        $('li:eq(8)').removeClass('active');
+                        $('li:eq(0)').addClass('active');
+                    }else if($('li')[1].attributes.num.value == j){
+                        $('li:eq(0)').removeClass('active');
+                        $('li:eq(1)').addClass('active');
+                    }else if($('li')[2].attributes.num.value == j){
+                        $('li:eq(1)').removeClass('active');
+                        $('li:eq(2)').addClass('active');
+                    }else if($('li')[3].attributes.num.value == j){
+                        $('li:eq(2)').removeClass('active');
+                        $('li:eq(3)').addClass('active');
+                    }else if($('li')[5].attributes.num.value == j){
+                        $('li:eq(3)').removeClass('active');
+                        $('li:eq(5)').addClass('active');
+                    }else if($('li')[6].attributes.num.value == j){
+                        $('li:eq(5)').removeClass('active');
+                        $('li:eq(6)').addClass('active');
+                    }else if($('li')[7].attributes.num.value == j){
+                        $('li:eq(6)').removeClass('active');
+                        $('li:eq(7)').addClass('active');
+                    }else if($('li')[8].attributes.num.value == j){
+                        $('li:eq(7)').removeClass('active');
+                        $('li:eq(8)').addClass('active');
+                    }
+                }else{
+                    j = 0 ;
+                }
+            },10);
+            i++;
+            suprise.roll(i);
+        },suprise.speed);
+    }
+    function getSur() {
+        $.ajax({
+            type: "get",
+            url: "./test.json",
+            success: function (s) {
+                console.log(s);
+                suprise.cycle = suprise.cycle + s.data.num;
+                console.log(suprise.cycle);
+                scroll();
+            }
+        })
+    }
+
+
+
+</script>
